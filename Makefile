@@ -1,7 +1,18 @@
-.PHONY: tests install fixtures database prepare tests phpstan php-cs-fixer composer-valid doctrine fix analyse
+env ?= dev
+.PHONY: tests install_dev fixtures database prepare tests phpstan php-cs-fixer composer-valid doctrine fix analyse
+
+install_dev:
+	cp .env .env.$(env).local
+	sed -i -e 's/DATABASE_USER/$(db_user)/' .env.$(env).local
+	sed -i -e 's/DATABASE_PASSWORD/$(db_password)/' .env.$(env).local
+	sed -i -e 's/ENV/$(env)/' .env.$(env).local
+	composer install
+	make prepare env=$(env)
+	yarn install
+	yarn run dev
 
 install:
-	cp .env .env.$(env).local
+	cp .env.dist .env.$(env).local
 	sed -i -e 's/DATABASE_USER/$(db_user)/' .env.$(env).local
 	sed -i -e 's/DATABASE_PASSWORD/$(db_password)/' .env.$(env).local
 	sed -i -e 's/ENV/$(env)/' .env.$(env).local
@@ -55,6 +66,29 @@ container:
 
 fix: php-cs-fixer
 	npx eslint assets/ --fix
-	npx stylelint "assets/styles/**/*.scss" --fix
+## npx stylelint "assets/styles/**/*.scss" --fix
 
-analyse: eslint stylelint twig yaml composer-valid container doctrine phpstan
+analyse: eslint twig yaml composer-valid container doctrine phpstan
+
+## —— Symfony 🎵 ———————————————————————————————————————————————————————————————
+SYMFONY_BIN   = symfony
+SYMFONY       = php bin/console
+
+sf: ## List all Symfony commands
+	$(SYMFONY)
+
+serve: ## Serve the application with HTTPS support
+	$(SYMFONY_BIN) serve -d
+
+unserve: ## Stop the webserver
+	$(SYMFONY_BIN) server:stop
+
+## —— Docker ———————————————————————————————————————————————————————————————
+
+start: ## start docker bdd postgres
+	docker-compose up -d
+stop: ## start docker bdd postgres
+	docker-compose down
+restart: \
+	stop \
+	start
