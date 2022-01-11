@@ -1,6 +1,6 @@
 env ?= dev
-.PHONY: tests install_dev fixtures database prepare tests phpstan php-cs-fixer composer-valid doctrine fix analyse
-
+.PHONY: ?
+all: tests install_dev fixtures database prepare tests phpstan php-cs-fixer composer-valid doctrine fix analyse
 install_dev:
 	cp .env .env.$(env).local
 	sed -i -e 's/DATABASE_USER/$(db_user)/' .env.$(env).local
@@ -28,6 +28,9 @@ database:
 	php bin/console doctrine:database:drop --if-exists --force --env=$(env)
 	php bin/console doctrine:database:create --env=$(env)
 	php bin/console doctrine:query:sql "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));" --env=$(env)
+	php bin/console doctrine:schema:update --force --env=$(env)
+
+update-db:
 	php bin/console doctrine:schema:update --force --env=$(env)
 
 prepare:
