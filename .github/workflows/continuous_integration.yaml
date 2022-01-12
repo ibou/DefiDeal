@@ -41,8 +41,8 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Install
         run: make install db_user=root db_password=Password123! env=test
-      - name: Analyze
-        run: make analyse
+      # - name: Analyze
+      #   run: make analyse
       - name: Tests
         run: make tests
         
