@@ -77,6 +77,9 @@ fix: php-cs-fixer
 	npx eslint assets/ --fix
 ## npx stylelint "assets/styles/**/*.scss" --fix
 
+npm-dev:
+	yarn run dev
+	
 analyse: eslint twig yaml composer-valid container doctrine phpstan
 
 ## —— Symfony 🎵 ———————————————————————————————————————————————————————————————
