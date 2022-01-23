@@ -1,0 +1,36 @@
+{
+    "database.connections": {
+        "1622914614918": {
+            "key": "1622914614918",
+            "host": "127.0.0.1",
+            "port": "3307",
+            "user": "root",
+            "password": "password",
+            "timezone": "+00:00",
+            "ssh": {
+                "host": "",
+                "privateKeyPath": "/home/ibrahima/.ssh/id_rsa",
+                "port": 22,
+                "username": "root",
+                "algorithms": {
+                    "cipher": []
+                },
+                "tunnelPort": null
+            },
+            "usingSSH": false,
+            "scheme": "http",
+            "encoding": "utf8",
+            "showHidden": false,
+            "connectionKey": "database.connections",
+            "global": false,
+            "dbType": "MySQL",
+            "encrypt": false,
+            "dbPath": "",
+            "authType": "default",
+            "includeDatabases": "main_test,main",
+            "database": "main",
+            "name": "Defi",
+            "tooltip": "Host: 127.0.0.1, Port: 3307"
+        }
+    }
+}

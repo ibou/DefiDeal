@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Functional\Security;
 
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\SecurityBundle\DataCollector\SecurityDataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Profiler\Profile;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Bundle\SecurityBundle\DataCollector\SecurityDataCollector;
 
 class AuthenticationTest extends WebTestCase
 {
     public function testShouldAuthenticate(): void
     {
-    // test authentication
+        // test authentication
 
         $client = static::createClient();
         $client->request(Request::METHOD_GET, '/login');
@@ -22,9 +24,9 @@ class AuthenticationTest extends WebTestCase
             '_username' => 'user+1@email.com',
             '_password' => 'password',
         ]);
-        
+
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
-        
+
         if (($profile = $client->getProfile()) instanceof Profile) {
             /** @var SecurityDataCollector $securityCollector */
             $securityCollector = $profile->getCollector('security');
